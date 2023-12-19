@@ -1,0 +1,31 @@
+version: "3"
+services:
+  myapp:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - elasticsearch
+      - mysql
+      - redis
+  elasticsearch:
+    image: elasticsearch:7.13.3
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+  mysql:
+    image: mysql:8.0.28
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: my_database
+    ports:
+      - "3306:3306"
+  redis:
+    image: redis:6.2.6
+    container_name: redis
+    ports:
+      - "6379:6379"
